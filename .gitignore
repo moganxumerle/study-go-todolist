@@ -10,6 +10,15 @@
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+*.sum
+cover.html
+fmtcoverage.html
 
 # Dependency directories (remove the comment below to include it)
-# vendor/
+vendor/
+debug/
+
+### Visual Studio Code ###
+.vscode/
+.vscode/launch.json
+__debug_bin

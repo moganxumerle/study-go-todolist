@@ -2,8 +2,10 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 	"strconv"
 
+	"github.com/moganxumerle/study-go-todolist/db"
 	"github.com/spf13/cobra"
 )
 
@@ -20,7 +22,28 @@ var doneCmd = &cobra.Command{
 				ids = append(ids, id)
 			}
 		}
-		fmt.Println(ids)
+
+		tasks, err := db.ListAllTasks()
+		if err != nil {
+			fmt.Println("Something went wrong: ", err)
+			os.Exit(1)
+		}
+
+		for _, id := range ids {
+
+			if id <= 0 || id > len(tasks) {
+				fmt.Println("Invalid task number: ", id)
+				continue
+			}
+
+			task := tasks[id-1]
+			err := db.DeleteTask(task.Key)
+			if err != nil {
+				fmt.Printf("Something went wrong when done the task %d. Error: %s", id, err)
+			} else {
+				fmt.Printf("The task %d - %s was done!", id, task.Value)
+			}
+		}
 	},
 }
 
